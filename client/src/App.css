@@ -10,11 +10,16 @@ html {
   scroll-behavior: smooth;
 }
 
+body{
+  overflow-x: hidden;
+}
+
 body,
 button,
 input,
 textarea {
   font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
 }
 
 button,

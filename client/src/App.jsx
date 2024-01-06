@@ -5,6 +5,8 @@ import LazyLoader from "./components/LazyLoader";
 import RegistrationPage from "./pages/RegistrationPage";
 import LoginPage from "./pages/LoginPage";
 import { Toaster } from "react-hot-toast";
+import HomePage from "./pages/HomePage";
+import MySubmissionPage from "./pages/MySubmissionPage";
 
 function App() {
 
@@ -25,6 +27,22 @@ function App() {
             element={
               <Suspense fallback={<LazyLoader />}>
                 <LoginPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <Suspense fallback={<LazyLoader />}>
+                <HomePage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/my"
+            element={
+              <Suspense fallback={<LazyLoader />}>
+                <MySubmissionPage />
               </Suspense>
             }
           />
