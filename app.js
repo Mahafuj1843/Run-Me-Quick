@@ -8,7 +8,7 @@ import mongoSanitize from'express-mongo-sanitize'
 import xss from'xss-clean'
 import hpp from'hpp'
 
-// import authRouter from './routes/authRoute.js'
+import authRouter from './routes/authRoute.js'
 
 const app = express()
 dotenv.config()
@@ -24,7 +24,7 @@ app.use(express.urlencoded({limit: '50mb', extended: true}));
 app.use(cookieParser())
 app.use(express.json({ limit: '10mb' }))
 
-// app.use('/api/auth', authRouter);
+app.use('/api/auth', authRouter);
 
 app.use((err, req, res, next)=>{
     const errorStatus = err.status || 500
