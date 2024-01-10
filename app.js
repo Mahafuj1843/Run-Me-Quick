@@ -9,6 +9,8 @@ import xss from'xss-clean'
 import hpp from'hpp'
 
 import authRouter from './routes/authRoute.js'
+import executionRouter from './routes/executionRoute.js'
+import { workerCpp, workerJava, workerPython, workerCSharp } from './utils/worker.js'
 
 const app = express()
 dotenv.config()
@@ -25,6 +27,7 @@ app.use(cookieParser())
 app.use(express.json({ limit: '10mb' }))
 
 app.use('/api/auth', authRouter);
+app.use('/api/execution', executionRouter);
 
 app.use((err, req, res, next)=>{
     const errorStatus = err.status || 500

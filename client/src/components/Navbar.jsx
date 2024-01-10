@@ -1,6 +1,10 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { getToken } from '../helpers/sessionHelper'
 import { Link } from 'react-router-dom';
+import io from "socket.io-client";
+
+const ENDPOINT = "http://localhost:8081"
+export var socket
 
 const Navbar = () => {
     const [myMenu, setMyMenu] = useState(false);
@@ -9,12 +13,16 @@ const Navbar = () => {
         // if (result) window.location.href = '/'
     }
 
+    useEffect(() => {
+        socket = io(ENDPOINT)
+    }, [])
+
     return (
         <Fragment>
             <div className="z-50 fixed top-0 flex items-center justify-between w-full bg-white border-b shadow-sm py-4 px-[1rem] md:px-[2rem] lg:px-[5rem]">
                 <Link to="/" className='text-xl font-bold'>RunMEQuick</Link>
                 {
-                    !getToken() ?
+                    getToken() ?
                         <div className="absolute inset-y-0 right-0 flex items-center gap-1.5 md:gap-3 pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                             {/* <!-- Profile dropdown --> */}
                             <div className="relative">
