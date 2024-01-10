@@ -6,6 +6,8 @@ import axios from 'axios';
 import moment from 'moment/moment'
 import { socket } from '../components/Navbar';
 import { useNavigate } from 'react-router-dom';
+import { getToken } from '../helpers/sessionHelper';
+const AxiosHeader = { headers: { "token": getToken() } }
 
 const MySubmissionPage = () => {
     let navigate = useNavigate();
@@ -13,7 +15,7 @@ const MySubmissionPage = () => {
     const [show, setShow] = useState(false)
     const { myExecution, setMyExecution, setSelectExecution } = ExecutionState();
 
-    const submit = async(id) =>{
+    const submit = async (id) => {
         const result = await axios.put(`http://localhost:8081/api/execution/cancle/${id}`)
 
         const temp = myExecution.filter((item) => item._id != result.data._id)
@@ -27,7 +29,7 @@ const MySubmissionPage = () => {
 
     const EditExecution = async (id) => {
         const result = await submit(id);
-        if(result.status === 200){
+        if (result.status === 200) {
             setSelectExecution(result.data)
             navigate('/')
         }
@@ -37,6 +39,15 @@ const MySubmissionPage = () => {
         setShow(!show)
         setSelectExecution(item)
     }
+
+    useEffect(() => {
+        if (getToken()) {
+            (async () => {
+                const result = await axios.get("http://localhost:8081/api/execution/my", AxiosHeader)
+                setMyExecution(result.data)
+            })();
+        }
+    }, [])
 
     useEffect(() => {
         if (renderRun.current === false) {
@@ -91,7 +102,7 @@ const MySubmissionPage = () => {
                                                 <td className="px-6 text-xs text-black border-s border-gray-400">
                                                     {moment(item.createdAt).format('lll')}
                                                 </td>
-                                                <td className="px-6 border-s font-medium border-gray-400">
+                                                <td className="px-6 border-s font-medium border-gray-400 capitalize">
                                                     {item.submitBy ? item.submitBy.username : "unknow"}
                                                 </td>
                                                 <td className="px-6 border-s text-black border-gray-400">

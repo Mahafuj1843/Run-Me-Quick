@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ErrorToast, IsEmail, IsEmpty, IsPassword } from '../helpers/formHelper';
+import { RegistrationRequest } from '../apiRequests/authRequest';
 
 const RegistrationPage = () => {
     let navigate = useNavigate();
@@ -29,9 +30,9 @@ const RegistrationPage = () => {
             ErrorToast("Password must be six characters, at least one letter and one number !")
         }
         else {
-            // const result = await RegistrationRequest(user)
+            const result = await RegistrationRequest(user)
 
-            // if (result) navigate('/login')
+            if (result) navigate('/login')
         }
     }
     

@@ -1,4 +1,5 @@
 import Execution from "../models/Execution.js";
+import User from "../models/User.js";
 import { createError } from "../utils/error.js";
 import { cppProducer, csharpProducer, javaProducer, pythonProducer } from "../utils/producer.js";
 
@@ -14,7 +15,7 @@ export const submitCode = async (req, res, next) => {
                 submitBy: req.user && req.user.id
             })
             // Save the code in database
-            await newExecution.save(); 
+            await newExecution.save() 
 
             /// This switch block add all submited code in Queue according to their runtime.
             switch (req.body.runtime) {
@@ -32,8 +33,12 @@ export const submitCode = async (req, res, next) => {
                   break;
                 default:
                   return res.status(400).json({ error: 'Unsupported runtime' });
-              }
+            }
         }
+        newExecution = await User.populate(newExecution, {
+            path: "submitBy",
+            select: "-password -createdAt -updatedAt",
+        });
         res.status(201).json(newExecution)
     } catch (err) {
         next(err)
@@ -59,10 +64,10 @@ export const MyExecution = async(req, res, next) =>{
     try {
         const result = await Execution.find(
             { submitBy: req.user.id},{ updatedAt: 0,}
-        ).populate("submitBy", "-email -password -createdAt -updatedAt");
+        ).sort("-updatedAt").populate("submitBy", "-email -password -createdAt -updatedAt");
 
         if(result.length) res.status(200).json(result);
-        else res.status(500).send("Something went wrong.")
+        else res.status(404).send("No data found.")
     } catch (error) {
         next(error)
     }

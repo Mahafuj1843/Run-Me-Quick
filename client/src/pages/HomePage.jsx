@@ -5,6 +5,8 @@ import { IsEmpty } from '../helpers/formHelper';
 import { ExecutionState } from '../context/ExecutionContext';
 import { useNavigate } from 'react-router-dom';
 import { socket } from '../components/Navbar';
+import { getToken } from '../helpers/sessionHelper';
+const AxiosHeader = { headers: { "token": getToken() } }
 
 const HomePage = () => {
     const { myExecution, setMyExecution, selectExecution } = ExecutionState();
@@ -27,7 +29,7 @@ const HomePage = () => {
             ErrorToast("Code field is empty!")
         }
         else {
-            const result = await axios.post("http://localhost:8081/api/execution", codeData)
+            const result = await axios.post("http://localhost:8081/api/execution", codeData, AxiosHeader)
             if(result.status === 201){
                 socket.emit("setup", result.data)
                 setMyExecution([ result.data, ...myExecution ])

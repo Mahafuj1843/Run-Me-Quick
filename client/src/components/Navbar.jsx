@@ -1,7 +1,8 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { getToken } from '../helpers/sessionHelper'
+import { getToken, getUserDetails } from '../helpers/sessionHelper'
 import { Link } from 'react-router-dom';
 import io from "socket.io-client";
+import { LogoutRequest } from '../apiRequests/authRequest';
 
 const ENDPOINT = "http://localhost:8081"
 export var socket
@@ -9,8 +10,8 @@ export var socket
 const Navbar = () => {
     const [myMenu, setMyMenu] = useState(false);
     const onLogout = async () => {
-        // const result = await LogoutRequest();
-        // if (result) window.location.href = '/'
+        const result = await LogoutRequest();
+        if (result) window.location.href = '/'
     }
 
     useEffect(() => {
@@ -27,7 +28,7 @@ const Navbar = () => {
                             {/* <!-- Profile dropdown --> */}
                             <div className="relative">
                                 <button onClick={() => setMyMenu(!myMenu)} type="button" className="flex items-center justify-center rounded-full bg-purple-800 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-400" id="user-menu-button">
-                                    <p className="h-8 w-8 rounded-full text-lg font-semibold text-white">A</p>
+                                    <p className="h-8 w-8 rounded-full text-lg font-semibold text-white mt-0.5">{getUserDetails().username.slice(0, 1).toUpperCase()}</p>
                                 </button>
 
                                 <div onBlur={() => setMyMenu(!myMenu)} className={`${myMenu ? "block" : "hidden"} absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transition-all ease-out duration-100`} role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">

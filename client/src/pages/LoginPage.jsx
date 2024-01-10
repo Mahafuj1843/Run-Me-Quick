@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ErrorToast, IsEmail } from '../helpers/formHelper';
+import { LoginRequest } from '../apiRequests/authRequest';
 
 const LoginPage = () => {
     const [show, setShow] = useState(false)
@@ -22,11 +23,9 @@ const LoginPage = () => {
             ErrorToast("Invalid email address.")
         }
         else {
-            // const result = await LoginRequest(user)
-            // const intendedRoute = localStorage.getItem("intendedRoute") || "/";
-            // setTimeout(() => {
-            //     if (result) window.location.href = intendedRoute;
-            // }, 1500)
+            const result = await LoginRequest(user)
+            const intendedRoute = localStorage.getItem("intendedRoute") || "/";
+            if (result) window.location.href = intendedRoute;
         }
     }
 
@@ -36,7 +35,7 @@ const LoginPage = () => {
             <section className="bg-gray-50">
                 <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0 overflow-auto">
                     <Link to="/" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 ">
-                    RunMEQuick
+                        RunMEQuick
                     </Link>
                     <form onSubmit={handleSubmit} className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0 ">
                         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
