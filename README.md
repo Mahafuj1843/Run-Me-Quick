@@ -15,18 +15,18 @@ npm i
 yarn
 ```
 
+Then, open your system CLI and run the Redis server in Docker for using Bullmq (Queue):
+
+```bash
+docker run -itd -p 6379:6379 redis
+```
+
 Then, run the Backend development server:
 
 ```bash
 npm run dev
 # or
 yarn dev
-```
-
-Then, open your system CLI and run the Redis server in Docker for using Bullmq (Queue):
-
-```bash
-docker run -itd -p 6379:6379 redis
 ```
 
 Then, run the React development server:
