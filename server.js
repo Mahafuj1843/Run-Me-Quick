@@ -15,6 +15,7 @@ export const io = new Server(host, {
         origin: "http://localhost:5173"
     },
 })
+//for test
 
 io.on("connection", (socket) => {
 
